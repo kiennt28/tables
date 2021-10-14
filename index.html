@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" style="display: inline-flex">
+      <div class="form_group">
+        <label for="quantity">Số bản ghi</label>
+        <input
+          type="number"
+          id="quantity"
+          name="quantity"
+          onchange="saveQuantity(this.value)"
+        />
+      </div>
+      <div id="info-user"></div>
+      <div>
+        <button type="button" name="button" onclick="addName()">Submit</button>
+      </div>
+    </form>
+    <table id="datatable" border="1">
+      <thead>
+        <tr>
+          <th>Tên</th>
+          <th>Tuổi</th>
+          <th>21 ≤ Tuổi ≥ 40</th>
+        </tr>
+      </thead>
+      <tbody id="content"></tbody>
+    </table>
+
+    <script>
+      function saveQuantity(value) {
+        var form_element = "";
+        for (var index = 0; index < value; index++) {
+          form_element +=
+            "<p>Bản thứ " +
+            (index + 1) +
+            "</p>\n" +
+            '<div class="form_group">\n' +
+            "<label>Tên:</label>\n" +
+            '<input type="text" name="name[]" id="name" class="form-input" />' +
+            "</div>\n" +
+            '<div class="form_group">\n' +
+            "<label>Tuổi:</label>\n" +
+            '<input type="number" name="age[]" id="age" class="form-input" />' +
+            "</div><hr>\n";
+        }
+        document.getElementById("info-user").innerHTML = form_element;
+      }
+
+      function addName() {
+        document.getElementById("content").innerHTML = "";
+        var input1 = document.getElementsByName("name[]");
+        var input2 = document.getElementsByName("age[]");
+        var data = [];
+        for (var i = 0; i < input1.length; i++) {
+          data.push({
+            name: input1[i].value,
+            age: input2[i].value,
+          });
+        }
+        var element = "";
+        for (let index = 0; index < data.length; index++) {
+          let text = "Ko đạt yêu cầu";
+          if (data[index].age >= 21 && data[index].age <= 40) {
+            text = "Đạt yêu cầu";
+          }
+          console.log(data[index].name);
+          if (data[index].age > 20) {
+            element +=
+              "<tr>\n" +
+              "<td>" +
+              data[index].name +
+              "</td>" +
+              "<td>" +
+              data[index].age +
+              "</td>" +
+              "<td>" +
+              text +
+              "</td>" +
+              "<tr>\n";
+          }
+          // if (index == 2) {
+          //   element +=
+          //     "<tr>\n" +
+          //     "<td>" +
+          //     data[index].name +
+          //     "</td>" +
+          //     "<td>" +
+          //     data[index].age +
+          //     "</td>" +
+          //     "<tr>\n";
+          // }
+        }
+
+        document.getElementById("content").innerHTML = element;
+      }
+    </script>
+  </body>
+</html>
